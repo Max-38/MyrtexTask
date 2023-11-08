@@ -1,0 +1,171 @@
+<h1 id="tableLabel">Список сотрудников</h1>
+
+<p *ngIf="!rowData"><em>Loading...</em></p>
+
+<div class="d-flex flex-row">
+
+  <div>
+    <ag-grid-angular style="width: 1000px; height: 600px;"
+                     class="ag-theme-alpine"
+                     [columnDefs]="columnDefs"
+                     [rowSelection]="'single'"
+                     [rowData]="rowData"
+                     (selectionChanged)="onSelection()">
+    </ag-grid-angular>
+  </div>
+
+    <div class="btn-group-vertical" role="group">
+      <button class="btn btn-primary" (click)="add()" data-bs-toggle="modal" data-bs-target="#createModal">Добавить</button>
+      <button class="btn btn-primary" [disabled]="employee.id == null" data-bs-toggle="modal" data-bs-target="#createModal">Редактировать</button>
+      <button class="btn btn-primary" [disabled]="employee.id == null" data-bs-toggle="modal" data-bs-target="#deleteModal">Удалить</button>
+    </div>
+</div>
+
+<button class="btn btn-primary" (click) ="clearSelection()">Сбросить выделение</button>
+<!--Модальное окно добавления-->
+
+<div class="modal fade" id="createModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Добавление сотрудника</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+
+
+      <div class="modal-body">
+
+        <div>
+          <label for="inputDepartment">Отдел</label>
+          <div>
+            <input type="text" [(ngModel)]="employee.department" class="form-control" id="inputDepartment" />
+          </div>
+        </div>
+
+        <div>
+          <label for="inputFullname">Полное имя</label>
+          <div>
+            <input type="text" [(ngModel)]="employee.fullName" class="form-control" id="inputFullName" />
+          </div>
+        </div>
+
+        <div>
+          <label for="inputDateOfBirth">Дата рождения</label>
+          <div>
+            <input type="date" [(ngModel)]="employee.dateOfBirth" class="form-control" id="inputDateOfBirth" />
+          </div>
+        </div>
+
+        <div>
+          <label for="inputDateOfEmployment">Дата приема на работу</label>
+          <div>
+            <input type="date" [(ngModel)]="employee.dateOfEmployment" class="form-control" id="inputDateOfEmployment" />
+          </div>
+        </div>
+
+        <div>
+          <label for="inputSalary">Зарпата</label>
+          <div>
+            <input type="number" [(ngModel)]="employee.salary" class="form-control" id="inputSalary" />
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="save()" data-bs-dismiss="modal">Сохранить</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!--Модальное окно редактирования-->
+
+<div class="modal fade" id="UpdateModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Редактирование сотрудника</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+
+
+      <div class="modal-body">
+
+        <div>
+          <label for="inputDepartment">Отдел</label>
+          <div>
+            <input type="text" [(ngModel)]="employee.department" class="form-control" id="inputDepartment" />
+          </div>
+        </div>
+
+        <div>
+          <label for="inputFullname">Полное имя</label>
+          <div>
+            <input type="text" [(ngModel)]="employee.fullName" class="form-control" id="inputFullName" />
+          </div>
+        </div>
+
+        <div>
+          <label for="inputDateOfBirth">Дата рождения</label>
+          <div>
+            <input type="date" [(ngModel)]="employee.dateOfBirth" class="form-control" id="inputDateOfBirth" />
+          </div>
+        </div>
+
+        <div>
+          <label for="inputDateOfEmployment">Дата приема на работу</label>
+          <div>
+            <input type="date" [(ngModel)]="employee.dateOfEmployment" class="form-control" id="inputDateOfEmployment" />
+          </div>
+        </div>
+
+        <div>
+          <label for="inputSalary">Зарпата</label>
+          <div>
+            <input type="number" [(ngModel)]="employee.salary" class="form-control" id="inputSalary" />
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="save()" data-bs-dismiss="modal">Сохранить</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!--Модальное окно удаления-->
+
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Удаление сотрудника</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>Вы уверены, что хотите удалить выбранного сотрудника?</p>
+      </div>
+
+      <div class="modal-footer">
+        <div>
+          <button type="button" class="btn btn-secondary" (click)="delete(employee)" data-bs-dismiss="modal">Удалить</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
